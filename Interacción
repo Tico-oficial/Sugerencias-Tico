@@ -1,0 +1,136 @@
+PREFIJO: $onInteraction
+
+$nomention
+$onlyIf[$checkContains[$customID;tico]==true;]
+$removeAllComponents
+$textSplit[$customID;-]
+$if[$checkContains[$getUserVar[suge-tico];$messageID]]
+$ephemeral
+$description[❌ Ya votaste por esta sugerencia]
+$color[ff0000]
+$stop
+$endif
+
+$if[$splitText[1]==like]
+$var[des;$getEmbedData[$channelID;$messageID;1;Description]]
+$textSplit[$var[des];``]
+$var[totalvotos;$sum[$splitText[2];1]]
+$var[suge;$replaceText[$var[des];$splitText[2];$var[totalvotos];1]]
+$var[negativos;$splitText[6]]
+$var[positivos;$splitText[4]]
+$textSplit[$var[positivos];(]
+$var[votospositivos;$sum[$splitText[1];1]]
+$enableDecimals[yes]
+$var[porcentaje;$round[$multi[$divide[$var[votospositivos];$var[totalvotos]];100];2]]
+$var[resul;$var[votospositivos] ($var[porcentaje]%)]
+$var[suge;$replaceText[$var[suge];$var[positivos];××;1]]
+$var[p-resul;$var[resul]]
+
+$textSplit[$var[negativos];(]
+$var[votosnegativos;$splitText[1]]
+$enableDecimals[yes]
+$var[porcentaje;$round[$multi[$divide[$var[votosnegativos];$var[totalvotos]];100];2]]
+$var[resul;$var[votosnegativos]($var[porcentaje]%)]
+$var[suge;$replaceText[$var[suge];$var[negativos];$var[resul];1]]
+$var[suge;$replaceText[$var[suge];××;$var[p-resul];1]]
+
+$title[$getEmbedData[$channelID;$messageID;1;Title]]
+$description[$var[suge]]
+$footer[$getEmbedData[$channelID;$messageID;1;Footer]]
+$color[6e00ff]
+$addButton[no;like-tico;$var[votospositivos];secondary;no;✅;]
+$addButton[no;dislike-tico;$var[votosnegativos];secondary;no;❌;]
+$textSplit[$getUserVar[suge-tico];,]
+$if[$getUserVar[suge-tico]=={}]
+$setUserVar[suge-tico;$messageID]
+$elseif[$getTextSplitLength>=227]
+$removeSplitTextElement[1]
+$setUserVar[suge-tico;$joinSplitText[,],$messageID]
+$else
+$setUserVar[suge-tico;$getUserVar[suge-tico],$messageID]
+$endif
+
+$elseif[$splitText[1]==dislike]
+$var[des;$getEmbedData[$channelID;$messageID;1;Description]]
+$textSplit[$var[des];``]
+$var[totalvotos;$sum[$splitText[2];1]]
+$var[suge;$replaceText[$var[des];$splitText[2];$var[totalvotos];1]]
+$var[positivos;$splitText[4]]
+
+$textSplit[$var[positivos];(]
+$var[votospositivos;$splitText[1]]
+$enableDecimals[yes]
+$var[porcentaje;$round[$multi[$divide[$var[votospositivos];$var[totalvotos]];100];2]]
+$var[resul;$var[votospositivos]($var[porcentaje]%)]
+$var[suge;$replaceText[$var[suge];$var[positivos];$var[resul];1]]
+$textSplit[$var[suge];``]
+$var[positivos;$splitText[4]]
+$var[suge;$replaceText[$var[suge];$splitText[4];××;1]]
+
+$var[negativos;$splitText[6]]
+$textSplit[$var[negativos];(]
+$var[votosnegativos;$sum[$splitText[1];1]]
+$enableDecimals[yes]
+$var[porcentaje;$round[$multi[$divide[$var[votosnegativos];$var[totalvotos]];100];2]]
+$var[resul;$var[votosnegativos] ($var[porcentaje]%)]
+$var[suge;$replaceText[$var[suge];$var[negativos];$var[resul];1]]
+$var[suge;$replaceText[$var[suge];××;$var[positivos];1]]
+
+$title[$getEmbedData[$channelID;$messageID;1;Title]]
+$description[$var[suge]]
+$footer[$getEmbedData[$channelID;$messageID;1;Footer]]
+$color[6e00ff]
+$addButton[no;like-tico;$var[votospositivos];secondary;no;✅;]
+$addButton[no;dislike-tico;$var[votosnegativos];secondary;no;❌;]
+$textSplit[$getUserVar[suge-tico];,]
+$if[$getUserVar[suge-tico]=={}]
+$setUserVar[suge-tico;$messageID]
+$elseif[$getTextSplitLength>=227]
+$removeSplitTextElement[1]
+$setUserVar[suge-tico;$joinSplitText[,],$messageID]
+$else
+$setUserVar[suge-tico;$getUserVar[suge-tico],$messageID]
+$endif
+
+$elseif[$splitText[3]==acept]
+$jsonParse[$getUserVar[suge-tico;$botID]]
+$onlyIf[$hasRole[$authorID;$json[rol]]==true;]
+$async[Name]
+$removeAllComponents[$messageID]
+$endasync
+$await[Name]
+$title[✅ ¡Sugerencia aceptada!]
+$description[$getEmbedData[$channelID;$messageID;1;Description]
+
+**La sugerencia fué aceptada:** <t:$getTimestamp:R>
+**Aceptada por:** <@$authorID>]
+$footer[$getEmbedData[$channelID;$messageID;1;Footer]]
+$color[00ff00]
+
+$var[id;$sendEmbedMessage[$json[canal-suge];;
+📬 ¡Nueva sugerencia!;;
+$getEmbedData[$channelID;$messageID;1;Description]
+
+📃 **Votos: ``0``**
+✅ Votos positivos: ``0 (0%)``
+❌ Votos negativos: ``0 (0%)``;
+6e00ff;;;
+Sugerencia de $username;;;;;yes]]
+$useChannel[$json[canal-suge]]
+$addButton[no;like-tico;0;secondary;no;✅;$var[id]]
+$addButton[no;dislike-tico;0;secondary;no;❌;$var[id]]
+$elseif[$splitText[3]==recha]
+$jsonParse[$getUserVar[suge-tico;$botID]]
+$onlyIf[$hasRole[$authorID;$json[rol]]==true;]
+$async[Name]
+$removeAllComponents[$messageID]
+$endasync
+$await[Name]
+$title[❌ ¡Sugerencia rechaza!]
+$description[$getEmbedData[$channelID;$messageID;1;Description]
+
+**La sugerencia fué rechazada:** <t:$getTimestamp:R>
+**Rechaza por:** <@$authorID>]
+$footer[$getEmbedData[$channelID;$messageID;1;Footer]]
+$color[ff0000]
+$endif
