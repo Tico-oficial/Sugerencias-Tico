@@ -1,0 +1,115 @@
+PREFIJO: ? (obligatoriamente tiene que ser solo un simbolo ya que tiene Subcomandos)
+De prefijo pues usar cualquier otro simbolo
+
+Código:
+
+$nomention
+$jsonParse[$getUserVar[suge-tico;$botID]]
+$if[$message[1]==suge]
+$onlyIf[$checkContains[$message;`]==false;❌ Carácter inválido detectado]
+$onlyIf[$jsonExists[canal-suge]==true;❌ Sistema no activado]
+$argsCheck[>1;❌ Escribe la sugerencia]
+$if[$jsonExists[canal-acept]==true]
+$var[id;$sendEmbedMessage[$json[canal-acept];;
+👮 ¡Sugerencia pendiente!;;
+$replaceText[$message;$message[1];;1];
+6e00ff;;;
+Sugerencia de $username;;;;;yes]]
+$useChannel[$json[canal-acept]]
+$async[Name]
+$addButton[no;suge-tico-acept;Aceptar;secondary;no;✅;$var[id]]
+$addButton[no;suge-tico-recha;Rechazar;secondary;no;❌;$var[id]]
+$endasync
+$await[Name]
+$useChannel[$channelID]
+Sugerencia enviada correctamente. A la espera de la revisión del staff...
+$else
+$var[id;$sendEmbedMessage[$json[canal-suge];;
+📬 ¡Nueva sugerencia!;;
+$message
+
+📃 **Votos: ``0``**
+✅ Votos positivos: ``0 (0%)``
+❌ Votos negativos: ``0 (0%)``;
+6e00ff;;;
+Sugerencia de $username;;;;;yes]]
+$useChannel[$json[canal-suge]]
+$async[Name]
+$addButton[no;like-tico;0;secondary;no;✅;$var[id]]
+$addButton[no;dislike-tico;0;secondary;no;❌;$var[id]]
+$endasync
+$await[Name]
+$useChannel[$channelID]
+Sugerencia enviada correctamente a <#$json[canal-suge]>
+$endif
+$elseif[$message[1]==set-canal-suge]
+$onlyAdmin[]
+$var[canal;$findChannel[$message[2]]]
+$onlyIf[$channelExists[$var[canal]]==true;❌ El canal no existe]
+$jsonSetString[canal-suge;$var[canal]]
+$description[✅ Canal configurado correctamente]
+$color[00ff00]
+
+$elseif[$message[1]==set-canal-acept]
+$onlyAdmin[]
+$var[canal;$findChannel[$message[2]]]
+$onlyIf[$channelExists[$var[canal]]==true;❌ El canal no existe]
+$jsonSetString[canal-acept;$var[canal]]
+$description[✅ Canal configurado correctamente]
+$color[00ff00]
+
+$elseif[$message[1]==set-rol-suge]
+$onlyAdmin[]
+$var[rol;$findRole[$message[2]]]
+$onlyIf[$roleExists[$var[rol]]==true;❌ El rol no existe]
+$jsonSetString[rol;$var[rol]]
+$description[✅ Rol de staff configurado correctamente]
+$color[00ff00]
+
+$elseif[$message[1]==reset-canal-suge]
+$onlyAdmin[]
+$if[$jsonExists[canal-suge]==true]
+$jsonUnset[canal-suge]
+$description[✅ Canal de sugerencias borrado correctamente]
+$color[00ff00]
+$else
+$description[❌ Canal ya eliminado]
+$color[ff0000]
+$endif
+
+$elseif[$message[1]==reset-canal-acept]
+$onlyAdmin[]
+$if[$jsonExists[canal-acept]==true]
+$jsonUnset[canal-acept]
+$description[✅ Canal de aceptar sugerencias borrado correctamente]
+$color[00ff00]
+$else
+$description[❌ Canal ya eliminado]
+$color[ff0000]
+$endif
+
+$elseif[$message[1]==reset-rol-suge]
+$onlyAdmin[]
+$if[$jsonExists[rol]==true]
+$jsonUnset[rol]
+$description[✅ Rol de staff borrado correctamente]
+$color[00ff00]
+$else
+$description[❌ Rol ya eliminado]
+$color[ff0000]
+$endif
+
+$elseif[$checkContains[$message[1];set-canal-acept;set-canal-suge]==false]
+$addField[⛔ | Error;
+**Subcomandos disponibles:**
+> - ``$commandTriggersuge <sugerencia>`` (para dar una sugerencia)
+> - ``$commandTriggerset-canal-suge <ID CANAL>`` (configurar canal donde se enviarán las sugerencias)
+> - ``$commandTriggerset-canal-acept <ID CANAL>`` (configurar canal donde se enviarán las antes de ser subidas al canal de sugerencias, par que el staff pueda aceptar o rechazar las sugerencias y así evitar sugerencias trolls)
+> - ``$commandTriggerset-rol-suge <ID ROL>`` (configura rol de staff para aceptar/rechazar sugerencias)
+> - ``$commandTriggerreset-canal-suge`` (Borrar canal de sugerencias)
+> - ``$commandTriggerreset-canal-acept (Borrar canal de aceptar/rechazar sugerencias)
+> - ``$commandTriggerreset-rol-suge (Borrar rol de staff)]
+$color[ff0000]
+
+$endif
+$setUserVar[suge-tico;$jsonStringify;$botID]
