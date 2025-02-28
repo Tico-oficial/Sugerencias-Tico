@@ -107,8 +107,8 @@ $addField[⛔ | Error;
 > - ``$commandTriggerset-canal-acept <ID CANAL>`` (configurar canal donde se enviarán las antes de ser subidas al canal de sugerencias, par que el staff pueda aceptar o rechazar las sugerencias y así evitar sugerencias trolls)
 > - ``$commandTriggerset-rol-suge <ID ROL>`` (configura rol de staff para aceptar/rechazar sugerencias)
 > - ``$commandTriggerreset-canal-suge`` (Borrar canal de sugerencias)
-> - ``$commandTriggerreset-canal-acept (Borrar canal de aceptar/rechazar sugerencias)
-> - ``$commandTriggerreset-rol-suge (Borrar rol de staff)]
+> - ``$commandTriggerreset-canal-acept`` (Borrar canal de aceptar/rechazar sugerencias)
+> - ``$commandTriggerreset-rol-suge`` (Borrar rol de staff)]
 $color[ff0000]
 
 $endif
