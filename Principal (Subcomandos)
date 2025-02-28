@@ -26,7 +26,7 @@ Sugerencia enviada correctamente. A la espera de la revisión del staff...
 $else
 $var[id;$sendEmbedMessage[$json[canal-suge];;
 📬 ¡Nueva sugerencia!;;
-$message
+$replaceText[$message;$message[1];;1]
 
 📃 **Votos: ``0``**
 ✅ Votos positivos: ``0 (0%)``
