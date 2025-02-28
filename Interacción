@@ -4,7 +4,7 @@ $nomention
 $onlyIf[$checkContains[$customID;tico]==true;]
 $removeAllComponents
 $textSplit[$customID;-]
-$if[$checkContains[$getUserVar[suge-tico];$messageID]]
+$if[$checkContains[$getUserVar[suge-tico];$messageID]==true]
 $ephemeral
 $description[❌ Ya votaste por esta sugerencia]
 $color[ff0000]
