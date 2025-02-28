@@ -1,1 +1,5 @@
-# Sugerencias-Tico
+# Sugerencias Tico (VARIABLE)
+
+| **Nombre:** | suge-tico |
+|--------|------|
+| **Valor=** | {} |
